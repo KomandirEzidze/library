@@ -30,3 +30,6 @@ class People():
 
     def delBook(self):
         self.books.pop()
+
+    def __str__(self):
+        return '{}\t{}'.format(self.name, self.dateBirth)

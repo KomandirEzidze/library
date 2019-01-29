@@ -7,6 +7,8 @@ def menu():
            "3. Показать все книги\n" + \
            "4. Добавить читателя\n" + \
            "5. Показать взятые книги\n" + \
+           "6. Показать читателей\n" + \
+           "7. Показать книги в наличии\n" + \
            "Введите q, чтобы выйти.")
 
 def choiceBook():
@@ -22,33 +24,32 @@ def addBook():
     books.append(book)
 
 def showPeople():
-    '''Выводит список читателей'''
-    pass
+    for (i, people) in  enumerate(peoples):
+        print('{}\t{}'.format(str(i), people))
 
 def choicePeople():
     '''Выводит список людей и надо выбрать из него одного,
         возвращает экземпляр класса People(т.е человека)'''
-    pass
+    showPeople()
+    ch = int(input('Введите номер читателя: '))
+    return peoples[ch]
 
-def borrowBook(): # Переделать
-    name = input('Введите имя заемщика: ') # Теперь у нас человек объект
+def borrowBook():
     book = books[choiceBook()]
-    book.borrow(name)
-    # Добавить книгу читателю
+    reader = choicePeople()
+    book.borrow(reader)
+    reader.addBook(book)
 
-def showBook():                                     #
-    for (i, book) in  enumerate(books):         #
-        print('{}\t{}'.format(str(i), book))    #
-                                                #
-def showBorrow():                               #
-    for (i, book) in  enumerate(books):         #
-        if (book.borrowed != None):             #
-            print('{}\t{}'.format(str(i), book))#
-                                                #
-def showNotBorrow():                            #
-    for (i, book) in  enumerate(books):         #
-        if (book.borrowed == None):             #
-            print('{}\t{}'.format(str(i), book))#
+def showBook(ch):
+    for (i, book) in  enumerate(books):
+        if ch=='3':
+            print('{}\t{}'.format(str(i), book))
+        elif ch=='5':
+            if (book.borrowed != None):
+                print('{}\t{}'.format(str(i), book))
+        elif ch=='7':
+            if (book.borrowed == None):
+                print('{}\t{}'.format(str(i), book))
 
 def addPeople():
     name = input('Введите имя человека: ')
@@ -67,9 +68,9 @@ while (ch != 'q'):
         addBook()
     elif (ch=='2'):
         borrowBook()
-    elif (ch=='3'):
-        showBook()
+    elif (ch=='3' or ch=='5' or ch=='7'):
+        showBook(ch)
     elif (ch=='4'):
         addPeople()
-    elif (ch=='5'):
-        showBorrow()
+    elif (ch=='6'):
+        showPeople()
